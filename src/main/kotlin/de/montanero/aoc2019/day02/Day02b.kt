@@ -1,5 +1,7 @@
 package de.montanero.aoc2019.day02
 
+import de.montanero.aoc2019.intcode.IntcodeMachine
+
 class Day02b {
 
     fun run(list: List<Int>, result: Int): Int {
@@ -15,7 +17,7 @@ class Day02b {
     }
 
     fun runOnce(list: List<Int>, verb: Int, noun: Int): Int {
-        val m = Machine(list.toMutableList());
+        val m = IntcodeMachine(list.toMutableList());
         m.memory[1] = verb
         m.memory[2] = noun
         m.run()

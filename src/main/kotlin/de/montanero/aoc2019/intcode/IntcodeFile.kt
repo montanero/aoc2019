@@ -1,11 +1,11 @@
-package de.montanero.aoc2019.util
+package de.montanero.aoc2019.intcode
 
-class MultiNumberFile(resource: String) {
+class IntcodeFile(resource: String) {
 
     val list: List<Int>
 
     init {
-        val reader = MultiNumberFile::class.java.getResourceAsStream(resource).reader(Charsets.UTF_8)
+        val reader = IntcodeFile::class.java.getResourceAsStream(resource).reader(Charsets.UTF_8)
         val l: MutableList<Int> = mutableListOf()
         reader.use {
             it.forEachLine {
