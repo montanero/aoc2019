@@ -12,7 +12,6 @@ class IntcodeFile(resource: String) {
                 it.split(",").forEach {
                     l.add(it.toInt())
                 }
-
             }
         }
 
