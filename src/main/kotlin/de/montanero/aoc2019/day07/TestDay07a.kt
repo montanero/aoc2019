@@ -68,7 +68,7 @@ class TestDay07a {
     }
 
     private fun getProgram(): List<Int> {
-        return IntcodeFile("/input07.txt").list
+        return IntcodeFile.read("/input07.txt")
     }
 
 

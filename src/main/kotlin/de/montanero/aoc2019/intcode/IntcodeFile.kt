@@ -1,10 +1,8 @@
 package de.montanero.aoc2019.intcode
 
-class IntcodeFile(resource: String) {
+object IntcodeFile {
 
-    val list: List<Int>
-
-    init {
+    fun read(resource: String): List<Int> {
         val reader = IntcodeFile::class.java.getResourceAsStream(resource).reader(Charsets.UTF_8)
         val l: MutableList<Int> = mutableListOf()
         reader.use {
@@ -14,7 +12,6 @@ class IntcodeFile(resource: String) {
                 }
             }
         }
-
-        list = l.toList()
+        return l
     }
 }

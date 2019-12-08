@@ -15,8 +15,7 @@ class TestDay05a {
 
     @Test
     fun testData() {
-        val nf = IntcodeFile("/input05.txt")
-        val m = IntcodeMachine(nf.list, listOf(1))
+        val m = IntcodeMachine(IntcodeFile.read("/input05.txt"), listOf(1))
         m.run ()
         assertEquals(15314507, m.output.last())
     }
