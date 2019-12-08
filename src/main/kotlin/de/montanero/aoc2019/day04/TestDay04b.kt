@@ -7,6 +7,6 @@ class TestDay04b {
     @Test
     fun test() {
         val to = Day04()
-        assertEquals(1169, to.runb())
+        assertEquals(757, to.runb())
     }
 }

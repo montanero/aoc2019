@@ -10,7 +10,7 @@ class TestDay08a {
         val image = Image(25,6,SingleStringReader("/input08.txt").data)
         val layer = image.layers.minBy { it.count { it==0 } }!!
         val cksum = layer.count{it==1}*layer.count{it==2}
-        assertEquals(52,cksum)
+        assertEquals(2684,cksum)
 
     }
 }

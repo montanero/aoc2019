@@ -16,7 +16,7 @@ class TestDay07a {
     @Test
     fun test1() {
 
-            assertEquals(212460, calcOutput(0, listOf(4,3,2,1,0), listOf(3,15,3,16,1002,16,10,16,1,16,15,15,4,15,99,0,0)))
+            assertEquals(43210, calcOutput(0, listOf(4,3,2,1,0), listOf(3,15,3,16,1002,16,10,16,1,16,15,15,4,15,99,0,0)))
     }
 
     @Test
@@ -26,7 +26,7 @@ class TestDay07a {
             calcOutput(0, settings, getProgram())
         }.max()
 
-        assertEquals(42, x)
+        assertEquals(212460, x)
     }
 
     @Test
