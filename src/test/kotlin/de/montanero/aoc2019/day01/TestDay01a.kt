@@ -2,6 +2,7 @@ package de.montanero.aoc2019.day01
 
 import de.montanero.aoc2019.util.NumberFile
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.fail
 import org.junit.jupiter.api.Test
 
 class TestDay01a {

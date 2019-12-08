@@ -9,9 +9,6 @@ class TestDay06b {
     fun test() {
         val center = OrbitFileReader("/input06.txt").center
 
-        val x1 = center["YOU"]!!
-        val x2 = center["SAN"]!!
-
         var r1 = routeToCenter(center, "YOU")
         var r2 = routeToCenter(center, "SAN")
         while (r1.last() == r2.last()) {

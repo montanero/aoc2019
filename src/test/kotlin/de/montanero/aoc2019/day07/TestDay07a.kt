@@ -8,7 +8,8 @@ import org.junit.jupiter.api.Test
 class TestDay07a {
     @Test
     fun testIO() {
-        val m = IntcodeMachine(listOf(3, 0, 4, 0, 99), listOf(142))
+        val m = IntcodeMachine(listOf(3, 0, 4, 0, 99))
+        m.input.add(142)
         m.run()
         assertEquals(142, m.output[0])
     }
@@ -43,7 +44,8 @@ class TestDay07a {
         var now = input
 
         settings.forEach {
-            val machine = IntcodeMachine(program, listOf(it, now))
+            val machine = IntcodeMachine(program)
+            machine.input.addAll(listOf(it, now))
             machine.run()
             now = machine.output[0]
         }
@@ -53,9 +55,14 @@ class TestDay07a {
     private fun calcRecursive( settings: List<Int>, program:List<Int>): Int {
         var now = 0
 
-        val machines = settings.map { IntcodeMachine(program, listOf(it)) }.toList()
+        val machines = settings.map {
+            val m = IntcodeMachine(program)
+            m.input.add( it)
+            m;
+        }.toList()
 
-        while (!machines.all { it.isStopped() })
+
+        while (!machines.all { it.stopped })
         {
             machines.forEach {
                 it.input += now

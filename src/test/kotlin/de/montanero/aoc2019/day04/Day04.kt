@@ -6,8 +6,8 @@ class Day04 {
     fun run(): Int {
         var count = 0
         for (i in 236491..713787) {
-            val i = i.toString()
-            if (digitsDecrease(i) && hasDouble(i))
+            val istr = i.toString()
+            if (digitsDecrease(istr) && hasDouble(istr))
                 count++
         }
         return count;
@@ -16,8 +16,8 @@ class Day04 {
     fun runb(): Int {
         var count = 0
         for (i in 236491..713787) {
-            val i = i.toString()
-            if (digitsDecrease(i) && hasExactDouble(i))
+            val istr = i.toString()
+            if (digitsDecrease(istr) && hasExactDouble(istr))
                 count++
         }
         return count;

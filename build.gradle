@@ -11,10 +11,10 @@ repositories {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-    compile(
+    testImplementation(
             'org.junit.jupiter:junit-jupiter-api:5.1.0'
     )
-    compile(
+    testImplementation(
             'org.junit.jupiter:junit-jupiter-engine:5.1.0'
     )
 }
@@ -24,4 +24,8 @@ compileKotlin {
 }
 compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
+}
+
+test {
+    useJUnitPlatform()
 }
