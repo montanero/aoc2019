@@ -7,7 +7,7 @@ class OrbitFileReader(resource: String) {
 
     init {
         val reader = OrbitFileReader::class.java.getResourceAsStream(resource).reader(Charsets.UTF_8)
-        var l= mutableMapOf<String,String>()
+        var l = mutableMapOf<String, String>()
         reader.use {
             it.forEachLine {
                 val m = regex.matchEntire(it)

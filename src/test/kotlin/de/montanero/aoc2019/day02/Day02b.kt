@@ -9,7 +9,7 @@ class Day02b {
             for (noun in 0..99) {
                 val i = runOnce(list, verb, noun)
                 if (i == result) {
-                    return 100*verb+noun
+                    return 100 * verb + noun
                 }
             }
         }

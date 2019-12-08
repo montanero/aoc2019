@@ -5,7 +5,6 @@ class IntcodeMachine(initial: List<Int>) {
     val memory = IntcodeMemory(initial)
     val output = mutableListOf<Int>()
     val input = mutableListOf<Int>()
-
     var stopped: Boolean = false
     var ip: Int = 0;
     fun run() {
@@ -102,7 +101,7 @@ class IntcodeMachine(initial: List<Int>) {
                 }
 
                 Opcode.STOP -> {
-                    stopped=true
+                    stopped = true
                 }
             }
         }

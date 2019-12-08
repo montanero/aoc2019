@@ -8,12 +8,12 @@ class CoordFileReader(resource: String) {
 
     init {
         val reader = CoordFileReader::class.java.getResourceAsStream(resource).reader(Charsets.UTF_8)
-        var l: MutableList<Pair<Int,Int>> = mutableListOf()
+        var l: MutableList<Pair<Int, Int>> = mutableListOf()
         reader.use {
             it.forEachLine {
                 val m = regex.matchEntire(it)
                 val (x, y) = m!!.destructured
-                l.add (Pair(x.toInt(),y.toInt()))
+                l.add(Pair(x.toInt(), y.toInt()))
             }
 
         }

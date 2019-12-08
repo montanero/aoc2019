@@ -24,8 +24,8 @@ class Day04 {
     }
 
     private fun hasDouble(i: String): Boolean {
-        for (j  in 0..i.length-2){
-            if (i[j]==i[j+1])
+        for (j in 0..i.length - 2) {
+            if (i[j] == i[j + 1])
                 return true
         }
         return false
@@ -34,19 +34,18 @@ class Day04 {
 
     private fun hasExactDouble(s: String): Boolean {
         var i = 0
-        while (i < s.length)
-        {
-            val l = sequence (s,i)
+        while (i < s.length) {
+            val l = sequence(s, i)
             if (l == 2)
                 return true
             i += l
         }
-return false
+        return false
     }
 
     private fun sequence(s: String, i: Int): Int {
         var count = 1
-        for (j in i+1..s.length-1) {
+        for (j in i + 1..s.length - 1) {
             if (s[j] != s[i])
                 break
             count++
@@ -55,8 +54,8 @@ return false
     }
 
     private fun digitsDecrease(i: String): Boolean {
-        for (j  in 0..i.length-2){
-            if (i[j]>i[j+1])
+        for (j in 0..i.length - 2) {
+            if (i[j] > i[j + 1])
                 return false
         }
         return true

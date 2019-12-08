@@ -15,7 +15,7 @@ class TestDay02a {
     @Test
     fun testData() {
         val to = Day02a()
-        val memory = IntcodeFile.read ("/input02.txt").toMutableList()
+        val memory = IntcodeFile.read("/input02.txt").toMutableList()
         memory[1] = 12
         memory[2] = 2
         val result = to.run(memory)

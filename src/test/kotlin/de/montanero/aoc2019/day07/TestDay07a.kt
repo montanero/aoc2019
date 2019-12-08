@@ -17,7 +17,7 @@ class TestDay07a {
     @Test
     fun test1() {
 
-            assertEquals(43210, calcOutput(0, listOf(4,3,2,1,0), listOf(3,15,3,16,1002,16,10,16,1,16,15,15,4,15,99,0,0)))
+        assertEquals(43210, calcOutput(0, listOf(4, 3, 2, 1, 0), listOf(3, 15, 3, 16, 1002, 16, 10, 16, 1, 16, 15, 15, 4, 15, 99, 0, 0)))
     }
 
     @Test
@@ -33,14 +33,14 @@ class TestDay07a {
     @Test
     fun testDataB() {
 
-        val x = permutations(listOf(5,6,7,8,9)).map { settings ->
+        val x = permutations(listOf(5, 6, 7, 8, 9)).map { settings ->
             calcRecursive(settings, getProgram())
         }.max()
 
         assertEquals(21844737, x)
     }
 
-    private fun calcOutput(input: Int, settings: List<Int>, program:List<Int>): Int {
+    private fun calcOutput(input: Int, settings: List<Int>, program: List<Int>): Int {
         var now = input
 
         settings.forEach {
@@ -52,21 +52,20 @@ class TestDay07a {
         return now
     }
 
-    private fun calcRecursive( settings: List<Int>, program:List<Int>): Int {
+    private fun calcRecursive(settings: List<Int>, program: List<Int>): Int {
         var now = 0
 
         val machines = settings.map {
             val m = IntcodeMachine(program)
-            m.input.add( it)
+            m.input.add(it)
             m;
         }.toList()
 
 
-        while (!machines.all { it.stopped })
-        {
+        while (!machines.all { it.stopped }) {
             machines.forEach {
                 it.input += now
-                it.runToOutput ()
+                it.runToOutput()
                 now = it.output.last()
             }
         }
@@ -85,7 +84,7 @@ class TestDay07a {
             1 -> return mutableListOf(inp)
             else -> {
                 val outp = mutableListOf<List<Int>>()
-                for (i in 0..inp.size-1) {
+                for (i in 0..inp.size - 1) {
                     val start = inp[i]
                     val rest = inp.toMutableList()
                     rest.removeAt(i)

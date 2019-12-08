@@ -6,7 +6,7 @@ class Day02a {
 
     fun run(list: MutableList<Int>): List<Int> {
         val m = IntcodeMachine(list);
-        m.run ()
+        m.run()
         return m.memory.toList()
     }
 
