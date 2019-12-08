@@ -7,6 +7,7 @@ class IntcodeMachine(initial: List<Int>) {
     val input = mutableListOf<Int>()
     var stopped: Boolean = false
     var ip: Int = 0;
+
     fun run() {
         while (!stopped)
             step();
@@ -35,14 +36,14 @@ class IntcodeMachine(initial: List<Int>) {
         STOP(99)
     }
 
-    enum class OperandMode(val numericCode: Int) {
+    private enum class OperandMode(val numericCode: Int) {
         POSITION(0),
         IMMEDIATE(1)
     }
 
-    inner class Instruction(val instruction: Int) {
-        private val opcode: Opcode = Opcode.values().find { it.numericCode == instruction % 100 }!!
-        private val opModes: List<OperandMode> = getOperandModes()
+    private inner class Instruction(val instruction: Int) {
+        val opcode: Opcode = Opcode.values().find { it.numericCode == instruction % 100 }!!
+        val opModes: List<OperandMode> = getOperandModes()
 
         fun getOperandMode(index: Int): OperandMode {
             return if (index - 1 < opModes.size)
@@ -51,7 +52,7 @@ class IntcodeMachine(initial: List<Int>) {
                 OperandMode.POSITION
         }
 
-        private fun getOperandModes(): List<OperandMode> {
+        fun getOperandModes(): List<OperandMode> {
             val opModess = mutableListOf<OperandMode>()
             var i = instruction / 100
             while (i != 0) {
