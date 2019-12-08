@@ -2,7 +2,7 @@ package de.montanero.aoc2019.intcode
 
 import kotlin.math.pow
 
-class IntcodeMachine(initial: List<Int>, val input: List<Int> = listOf()) {
+class IntcodeMachine(initial: List<Int>, var input: List<Int> = listOf()) {
 
     val memory = IntcodeMemory(initial)
     val output = mutableListOf<Int>()
@@ -80,5 +80,11 @@ class IntcodeMachine(initial: List<Int>, val input: List<Int> = listOf()) {
             1 -> memory[ip + index]
             else -> throw Exception()
         }
+    }
+
+    fun runToOutput() {
+        val outputLen = output.size
+        while (!isStopped() && outputLen == output.size)
+            step();
     }
 }
