@@ -1,12 +1,15 @@
 package de.montanero.aoc2019.intcode
 
-class IntcodeMachine(initial: List<Int>) {
+import java.lang.Exception
+
+class IntcodeMachine(initial: List<Long>) {
 
     val memory = IntcodeMemory(initial)
-    val output = mutableListOf<Int>()
-    val input = mutableListOf<Int>()
+    val output = mutableListOf<Long>()
+    val input = mutableListOf<Long>()
     var stopped: Boolean = false
     var ip: Int = 0;
+    var rb: Int = 0;
 
     fun run() {
         while (!stopped)
@@ -24,7 +27,7 @@ class IntcodeMachine(initial: List<Int>) {
         instruction.execute()
     }
 
-    private enum class Opcode(val numericCode: Int) {
+    private enum class Opcode(val numericCode: Long) {
         ADD(1),
         MULT(2),
         INPUT(3),
@@ -33,15 +36,17 @@ class IntcodeMachine(initial: List<Int>) {
         JUMP_IF_FALSE(6),
         LESS_THEN(7),
         EQUALS(8),
+        RELATIVE_BASE_OFFSET(9),
         STOP(99)
     }
 
-    private enum class OperandMode(val numericCode: Int) {
+    private enum class OperandMode(val numericCode: Long) {
         POSITION(0),
-        IMMEDIATE(1)
+        IMMEDIATE(1),
+        RELATIVE(2)
     }
 
-    private inner class Instruction(val instruction: Int) {
+    private inner class Instruction(val instruction: Long) {
         val opcode: Opcode = Opcode.values().find { it.numericCode == instruction % 100 }!!
         val opModes: List<OperandMode> = getOperandModes()
 
@@ -55,7 +60,7 @@ class IntcodeMachine(initial: List<Int>) {
         fun getOperandModes(): List<OperandMode> {
             val opModess = mutableListOf<OperandMode>()
             var i = instruction / 100
-            while (i != 0) {
+            while (i != 0L) {
                 opModess += OperandMode.values().find { it.numericCode == i % 10 }!!
                 i /= 10
             }
@@ -65,15 +70,15 @@ class IntcodeMachine(initial: List<Int>) {
         fun execute(): Unit {
             when (opcode) {
                 Opcode.ADD -> {
-                    memory[memory[ip + 3]] = getParam(1) + getParam(2)
+                    setParam(3,  getParam(1) + getParam(2))
                     ip += 4
                 }
                 Opcode.MULT -> {
-                    memory[memory[ip + 3]] = getParam(1) * getParam(2)
+                    setParam(3,   getParam(1) * getParam(2))
                     ip += 4
                 }
                 Opcode.INPUT -> {
-                    memory[memory[ip + 1]] = input.removeAt(0)
+                    setParam(1,  input.removeAt(0))
                     ip += 2
                 }
                 Opcode.OUTPUT -> {
@@ -81,24 +86,28 @@ class IntcodeMachine(initial: List<Int>) {
                     ip += 2
                 }
                 Opcode.JUMP_IF_TRUE -> {
-                    if (getParam(1) != 0)
-                        ip = getParam(2)
+                    if (getParam(1) != 0L)
+                        ip = getParam(2).toInt()
                     else
                         ip += 3
                 }
                 Opcode.JUMP_IF_FALSE -> {
-                    if (getParam(1) == 0)
-                        ip = getParam(2)
+                    if (getParam(1) == 0L)
+                        ip = getParam(2).toInt()
                     else
                         ip += 3
                 }
                 Opcode.LESS_THEN -> {
-                    memory[memory[ip + 3]] = if (getParam(1) < getParam(2)) 1 else 0
+                    setParam(3,   if (getParam(1) < getParam(2)) 1 else 0)
                     ip += 4
                 }
                 Opcode.EQUALS -> {
-                    memory[memory[ip + 3]] = if (getParam(1) == getParam(2)) 1 else 0
+                    setParam(3,   if (getParam(1) == getParam(2)) 1 else 0)
                     ip += 4
+                }
+                Opcode.RELATIVE_BASE_OFFSET -> {
+                    rb += getParam(1).toInt()
+                    ip += 2
                 }
 
                 Opcode.STOP -> {
@@ -108,10 +117,19 @@ class IntcodeMachine(initial: List<Int>) {
         }
 
 
-        fun getParam(index: Int): Int {
+        fun getParam(index: Int): Long {
             return when (getOperandMode(index)) {
-                OperandMode.POSITION -> memory[memory[ip + index]]
+                OperandMode.POSITION -> memory[memory[ip + index].toInt()]
+                OperandMode.RELATIVE -> memory[memory[ip + index].toInt()+rb]
                 OperandMode.IMMEDIATE -> memory[ip + index]
+            }
+        }
+
+        fun setParam(index: Int, val_:Long): Unit {
+            when (getOperandMode(index)) {
+                OperandMode.POSITION -> { memory[memory[ip + index].toInt()] = val_ }
+                OperandMode.RELATIVE -> { memory[memory[ip + index].toInt()+rb] = val_ }
+                OperandMode.IMMEDIATE -> throw Exception()
             }
         }
     }

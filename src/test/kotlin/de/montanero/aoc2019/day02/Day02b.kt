@@ -4,9 +4,9 @@ import de.montanero.aoc2019.intcode.IntcodeMachine
 
 class Day02b {
 
-    fun run(list: List<Int>, result: Int): Int {
-        for (verb in 0..99) {
-            for (noun in 0..99) {
+    fun run(list: List<Long>, result: Long): Long {
+        for (verb in 0L..99L) {
+            for (noun in 0L..99L) {
                 val i = runOnce(list, verb, noun)
                 if (i == result) {
                     return 100 * verb + noun
@@ -16,7 +16,7 @@ class Day02b {
         return 0
     }
 
-    fun runOnce(list: List<Int>, verb: Int, noun: Int): Int {
+    fun runOnce(list: List<Long>, verb: Long, noun: Long): Long {
         val m = IntcodeMachine(list.toMutableList());
         m.memory[1] = verb
         m.memory[2] = noun

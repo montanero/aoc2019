@@ -9,7 +9,7 @@ class TestDay02b {
     @Test
     fun testData() {
         val to = Day02b()
-        val result = to.run(IntcodeFile.read("/input02.txt"), 19690720)
+        val result = to.run(IntcodeFile.read("/input02.txt"), 19690720L)
         assertEquals(6417, result)
     }
 }

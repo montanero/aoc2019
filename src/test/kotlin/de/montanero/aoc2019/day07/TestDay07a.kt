@@ -23,11 +23,11 @@ class TestDay07a {
     @Test
     fun testData() {
 
-        val x = permutations(listOf(0, 1, 2, 3, 4)).map { settings ->
+        val x = permutations(listOf(0L, 1L, 2L, 3L, 4L)).map { settings ->
             calcOutput(0, settings, getProgram())
         }.max()
 
-        assertEquals(212460, x)
+        assertEquals(212460L, x)
     }
 
     @Test
@@ -37,10 +37,10 @@ class TestDay07a {
             calcRecursive(settings, getProgram())
         }.max()
 
-        assertEquals(21844737, x)
+        assertEquals(21844737L, x)
     }
 
-    private fun calcOutput(input: Int, settings: List<Int>, program: List<Int>): Int {
+    private fun calcOutput(input: Long, settings: List<Long>, program: List<Long>): Long {
         var now = input
 
         settings.forEach {
@@ -52,8 +52,8 @@ class TestDay07a {
         return now
     }
 
-    private fun calcRecursive(settings: List<Int>, program: List<Int>): Int {
-        var now = 0
+    private fun calcRecursive(settings: List<Long>, program: List<Long>): Long {
+        var now = 0L
 
         val machines = settings.map {
             val m = IntcodeMachine(program)
@@ -73,17 +73,17 @@ class TestDay07a {
         return now
     }
 
-    private fun getProgram(): List<Int> {
+    private fun getProgram(): List<Long> {
         return IntcodeFile.read("/input07.txt")
     }
 
 
-    fun permutations(inp: List<Int>): List<List<Int>> {
+    fun permutations(inp: List<Long>): List<List<Long>> {
         when (inp.size) {
             0 -> return mutableListOf()
             1 -> return mutableListOf(inp)
             else -> {
-                val outp = mutableListOf<List<Int>>()
+                val outp = mutableListOf<List<Long>>()
                 for (i in 0..inp.size - 1) {
                     val start = inp[i]
                     val rest = inp.toMutableList()
