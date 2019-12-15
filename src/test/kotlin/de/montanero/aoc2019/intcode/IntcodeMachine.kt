@@ -22,9 +22,30 @@ class IntcodeMachine(initial: List<Long>) {
             step();
     }
 
-    private fun step() {
+    fun runToInput() {
+        while (true) {
+            if (stopped)
+                return;
+            val instruction = Instruction(memory[ip])
+            if (instruction.opcode == Opcode.INPUT)
+                return
+            step()
+        }
+    }
+
+    fun step() {
         val instruction = Instruction(memory[ip])
         instruction.execute()
+    }
+
+    fun isOnOutput(): Boolean {
+        val instruction = Instruction(memory[ip])
+        return instruction.opcode == Opcode.OUTPUT
+    }
+
+    fun isOnInput(): Boolean {
+        val instruction = Instruction(memory[ip])
+        return instruction.opcode == Opcode.INPUT
     }
 
     private enum class Opcode(val numericCode: Long) {
