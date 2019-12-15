@@ -9,12 +9,21 @@ class TestDay15 {
 
 
     @Test
-    fun test() {
+    fun testA() {
         val maze = explore();
         maze.printArea()
         val s = findShortest(maze)
         assertEquals (214, s)
     }
+
+    @Test
+    fun testB() {
+        val maze = explore();
+        val s = findCompleteFill(maze)
+        assertEquals (344, s)
+    }
+
+
 
     fun explore(): Maze {
         var maze = Maze()
@@ -63,6 +72,20 @@ class TestDay15 {
         }
     }
 
+    fun findCompleteFill(maze: Maze): Int {
+        var start = maze.area.filter { it.value == Maze.RoomType.OXYGEN }.map{ it.key }.first()
+        var walked = setOf(start)
+        var heads = setOf(start)
+        var time = 0
+        while (true) {
+            val newheads = heads.map { maze.getWalkablePositions(it) }.flatten().toSet() - walked
+            if (newheads.isEmpty())
+                return time
+            walked = walked + newheads
+            heads = newheads
+            time++
+        }
+    }
 
     enum class Direction(val code: Int) {
         NORTH(1), EAST(4), SOUTH(2), WEST(3);
