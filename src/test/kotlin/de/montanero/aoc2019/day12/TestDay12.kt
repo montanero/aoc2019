@@ -1,7 +1,7 @@
 package de.montanero.aoc2019.day12
 
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.fail
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
@@ -12,7 +12,7 @@ class TestDay12 {
         var planets = positions.map { Planet(it, ThreeDee(0, 0, 0)) }
 
         for (i in 1..1000) {
-            planets = takeTurn (planets)
+            planets = takeTurn(planets)
         }
 
         val energy = energy(planets)
@@ -30,7 +30,7 @@ class TestDay12 {
         var planets = positions.map { Planet(it, ThreeDee(0, 0, 0)) }
 
         for (i in 1..10) {
-            planets = takeTurn (planets)
+            planets = takeTurn(planets)
         }
 
         val energy = energy(planets)
@@ -44,7 +44,7 @@ class TestDay12 {
 
     @Disabled
     @Test
-    fun testB():Unit {
+    fun testB(): Unit {
         val positions = PlanetFileReader.read("/input12.txt")
         val initials = positions.map { Planet(it, ThreeDee(0, 0, 0)) }
         var planets = initials
@@ -52,15 +52,15 @@ class TestDay12 {
 
 
         for (i in 1..1_000_000_000) {
-            planets = takeTurn (planets)
+            planets = takeTurn(planets)
             val e = energy(planets)
-            if (historicPlanets.contains(e) && planets  == turns(initials, historicPlanets[e]!!)) {
+            if (historicPlanets.contains(e) && planets == turns(initials, historicPlanets[e]!!)) {
                 println(i)
                 System.exit(1)
             }
             historicPlanets[e] = i
         }
-       val x:Int?  = fail ("not found")
+        assertTrue(false, "not found")
     }
 
     private fun turns(initials: List<Planet>, turns: Int): List<Planet> {
@@ -71,7 +71,7 @@ class TestDay12 {
         return planets
     }
 
-    private fun applyVelocity(planets: List<Planet>):List<Planet> {
+    private fun applyVelocity(planets: List<Planet>): List<Planet> {
         return planets.map {
             Planet(it.pos + it.vel, it.vel)
         }
@@ -89,7 +89,7 @@ class TestDay12 {
             }
         }
         return planets.zip(newVel).map { pair: Pair<Planet, ThreeDee> ->
-            Planet(pair.first.pos,  pair.second)
+            Planet(pair.first.pos, pair.second)
         }
     }
 

@@ -45,8 +45,8 @@ class TestDay13 {
     }
 
     private fun readJoystick(intcodeMachine: IntcodeMachine, cabinet: Cabinet) {
-        val paddleX = cabinet.screen.filter { it.value==3 }.map { it.key.first }.first()!!
-        val ballX = cabinet.screen.filter { it.value==4 }.map { it.key.first }.first()!!
+        val paddleX = cabinet.screen.filter { it.value==3 }.map { it.key.first }.first()
+        val ballX = cabinet.screen.filter { it.value==4 }.map { it.key.first }.first()
 
         val element = if(paddleX<ballX) 1L else if (paddleX > ballX) -1L else 0
         //cabinet.printscreen()
