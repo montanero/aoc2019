@@ -2,35 +2,51 @@ package de.montanero.aoc2019.day16
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import java.time.LocalTime
 import kotlin.math.abs
 
 class TestDay16 {
+    private val basePattern = arrayOf(0, 1, 0, -1)
+
     @Test
-    fun testA (){
+    fun testA() {
         val input = NumberStringReader.read("/input16.txt")
-        val basePattern = listOf(0, 1, 0, -1)
-        val patterns = generatePatterns(input.size, basePattern)
         var now = input
-        for (i in 1..100){
-            now = phase (now, patterns)
+        for (i in 1..100) {
+            now = phase(now)
         }
 
-        assertEquals ("01234567", stringify(now).substring(0, 8))
+        assertEquals("40921727", stringify(now).substring(0, 8))
     }
 
-    private fun stringify(now: List<Int>) : String {
-        return now.joinToString (""){ it.toString() }
+    @Test
+    fun testB() {
+        val i0 = NumberStringReader.read("/input16.txt")
+        val input = (1..10_000).flatMap { i0 }
+        val offset = stringify(i0).substring(0, 7).toInt()
+        var now = input
+        for (i in 1..100) {
+            println ("phase $i "+ LocalTime.now())
+            now = phase(now)
+        }
+
+        assertEquals("40921727", stringify(now).substring(offset, offset+8))
     }
 
-    private fun phase(list: List<Int>, patterns: List<List<Int>>): List<Int> {
-        return list.indices.map { abs(list.zip(patterns[it]).map { p -> p.first*p.second }.sum())%10 }.toList()
+
+    private fun stringify(now: List<Int>): String {
+        return now.joinToString("") { it.toString() }
     }
 
-    private fun generatePatterns(size: Int, basePattern: List<Int>) : List<List<Int>> {
-        return (1..size ).map { generatePattern(it, size, basePattern) }.toList()
+    private fun phase(list: List<Int>): List<Int> {
+        return list.indices
+                .map { i ->
+                    abs(list.mapIndexed { j, p ->
+                        p * pattern(i, j)
+                    }.sum()) % 10
+                }.toList()
     }
 
-    private fun generatePattern(i: Int, size:Int, basePattern: List<Int>): List<Int> {
-        return (1..size).map { basePattern[(it/i)%basePattern.size]}.toList()
-    }
+    private fun pattern(line: Int, pos: Int): Int = basePattern[((pos + 1) / (line + 1)) % basePattern.size]
+
 }
