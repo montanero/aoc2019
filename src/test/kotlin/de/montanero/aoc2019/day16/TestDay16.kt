@@ -19,21 +19,6 @@ class TestDay16 {
         assertEquals("40921727", stringify(now).substring(0, 8))
     }
 
-    @Test
-    fun testB() {
-        val i0 = NumberStringReader.read("/input16.txt")
-        val input = (1..10_000).flatMap { i0 }
-        val offset = stringify(i0).substring(0, 7).toInt()
-        var now = input
-        for (i in 1..100) {
-            println ("phase $i "+ LocalTime.now())
-            now = phase(now)
-        }
-
-        assertEquals("40921727", stringify(now).substring(offset, offset+8))
-    }
-
-
     private fun stringify(now: List<Int>): String {
         return now.joinToString("") { it.toString() }
     }
