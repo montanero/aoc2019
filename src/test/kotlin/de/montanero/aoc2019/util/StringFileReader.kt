@@ -1,18 +1,11 @@
 package de.montanero.aoc2019.day01
 
-class StringFileReader(resource: String) {
+object StringFileReader{
 
-    val list: List<String>
-
-    init {
+    fun read (resource: String) : List<String> {
         val reader = StringFileReader::class.java.getResourceAsStream(resource).reader(Charsets.UTF_8)
-        var l: MutableList<String> = mutableListOf()
         reader.use {
-            it.forEachLine {
-                l.add(it)
-            }
-
+            it.useLines {return it.toList()}
         }
-        list = l.toList();
     }
 }
