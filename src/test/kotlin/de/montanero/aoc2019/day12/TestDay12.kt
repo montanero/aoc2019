@@ -42,27 +42,6 @@ class TestDay12 {
     private fun energy(planets: List<Planet>) =
             planets.map { it.energy() }.sum()
 
-    @Disabled
-    @Test
-    fun testB(): Unit {
-        val positions = PlanetFileReader.read("/input12.txt")
-        val initials = positions.map { Planet(it, ThreeDee(0, 0, 0)) }
-        var planets = initials
-        val historicPlanets = mutableMapOf(energy(planets) to 0)
-
-
-        for (i in 1..1_000_000_000) {
-            planets = takeTurn(planets)
-            val e = energy(planets)
-            if (historicPlanets.contains(e) && planets == turns(initials, historicPlanets[e]!!)) {
-                println(i)
-                System.exit(1)
-            }
-            historicPlanets[e] = i
-        }
-        assertTrue(false, "not found")
-    }
-
     private fun turns(initials: List<Planet>, turns: Int): List<Planet> {
         var planets = initials
         for (i in 1..turns) {
