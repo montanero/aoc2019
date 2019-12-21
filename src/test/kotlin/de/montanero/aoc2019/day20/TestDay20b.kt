@@ -4,7 +4,7 @@ import de.montanero.aoc2019.day01.StringFileReader
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
-class TestDay20 {
+class TestDay20b {
     @Test
     fun test() {
         val maze = StringFileReader.read("/input20.txt")
@@ -13,29 +13,38 @@ class TestDay20 {
         val end = labels.find { it.first == "ZZ" }!!.second
         val tunnels = findTunnels(labels)
 
-        val s0 = findShortest (start, end, maze, tunnels )
-        assertEquals (636, s0)
+        val s0 = findShortest(start, end, maze, tunnels)
+        assertEquals(7248, s0) // too low
     }
 
-    private fun findShortest(start: TestDay20.Pos, end: TestDay20.Pos, maze: List<String>, tunnels: Map<TestDay20.Pos, TestDay20.Pos>): Int {
-        val visited = mutableSetOf<Pos>()
+    private fun findShortest(start: TestDay20b.Pos, end: TestDay20b.Pos, maze: List<String>, tunnels: Map<TestDay20b.Pos, TestDay20b.Pos>): Int {
         var turns = 0
-        visited.add (start)
-        var heads = listOf(start)
-        while (!visited.contains(end))
-        {
-            turns ++
-            heads = heads.map {p->
-                val tries = mutableListOf (Pos(p.x-1,p.y),Pos(p.x+1,p.y),Pos(p.x,p.y-1),Pos(p.x,p.y+1))
+        val lstart = LPos(start, 0)
+        val lend = LPos(end, 0)
+        var heads = setOf(lstart)
+        val visited = mutableSetOf<LPos>(lstart)
+        while (!visited.contains(lend)) {
+            turns++
+            heads = heads.map { lp ->
+                val p = lp.pos
+                val tries = mutableListOf(LPos(Pos(p.x - 1, p.y), lp.level), LPos(Pos(p.x + 1, p.y), lp.level), LPos(Pos(p.x, p.y - 1), lp.level), LPos(Pos(p.x, p.y + 1), lp.level))
                 val tp = tunnels[p]
-                if (tp != null)
-                    tries.add(tp)
-                tries.filter { p0 -> maze[p0.y][p0.x] == '.'  && !visited.contains(p0) }
-            }.flatten()
+                if (tp != null) {
+                    if (isOuter(p)) {
+                        if (lp.level > 0)
+                            tries.add(LPos(tp, lp.level - 1))
+                    } else {
+                        tries.add(LPos(tp, lp.level + 1))
+                    }
+                }
+                tries.filter { p0 -> maze[p0.pos.y][p0.pos.x] == '.' && !visited.contains(p0) }
+            }.flatten().toSet()
             visited.addAll(heads)
         }
         return turns;
     }
+
+    private fun isOuter(tp: Pos): Boolean = tp.x < 10 || tp.x > 120 || tp.y < 10 || tp.y > 120
 
     private fun findTunnels(labels: List<Pair<String, Pos>>): Map<Pos, Pos> =
             labels.filter { it.first != "AA" && it.first != "ZZ" }.map { it.first }.map { l ->
@@ -78,4 +87,5 @@ class TestDay20 {
 
 
     private data class Pos(val x: Int, val y: Int)
+    private data class LPos(val pos: Pos, val level: Int)
 }
