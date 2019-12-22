@@ -6,21 +6,46 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class TestDay19b {
-    val f = IntcodeFile.read("/input19.txt")
+    companion object {
+        val program = IntcodeFile.read("/input19.txt")
+    }
+
 
     @Test
     fun test() {
-        val count = (0 until 50). forEach {x ->
-            (0 until 50).forEach {y->
-                val m = IntcodeMachine(f)
-                m.input.add(x.toLong())
-                m.input.add(y.toLong())
-                m.run()
-                print(if (m.output.last()!= 0L) "#" else ".")
-            }
-            println ()
+        var start = Pos(100, 0)
+        var pos = start
+        while (!pos.hasPull())
+            pos = Pos(pos.x, pos.y+1)
+
+        pos = pos.findRightMostInBeam()
+        while (!Pos(pos.x - 99, pos.y + 99).hasPull()) {
+            pos = Pos(pos.x, pos.y + 1).findRightMostInBeam()
         }
-        assertEquals (42L, count)
+        assertEquals(3790981L, (pos.x - 99) * 10000 + pos.y)
+    }
+
+
+    data class Pos(val x: Long, val y: Long) {
+        fun hasPull(): Boolean {
+            val m = IntcodeMachine(TestDay19b.program)
+            m.input.add(x)
+            m.input.add(y)
+            m.run()
+            return m.output.last() != 0L
+        }
+
+        fun findRightMostInBeam(): Pos {
+            var p = this
+            while (true) {
+                val np = Pos(p.x + 1, y)
+                if (!np.hasPull())
+                    return p
+                p = np
+            }
+            return p
+        }
+
     }
 
 }
